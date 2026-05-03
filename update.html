@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student | Student System</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #334155;
+            --accent: #4f46e5;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-main: #fafafa;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding-top: 100px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle 300px at 10% 10%, rgba(79, 70, 229, 0.05), transparent),
+                        radial-gradient(circle 400px at 90% 20%, rgba(15, 23, 42, 0.03), transparent);
+            z-index: -1;
+            pointer-events: none;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode {
+            --primary: #f8fafc;
+            --primary-light: #cbd5e1;
+            --accent: #6366f1;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --border-color: #1e293b;
+            --shadow-sm: none;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode::before {
+            background: none;
+        }
+
+        /* Navbar */
+        .navbar { 
+            background: linear-gradient(90deg, #1e3c72, #2a5298) !important; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-sm); 
+            padding: 12px 0;
+            transition: all 0.35s ease;
+        }
+        
+        body.dark-mode .navbar {
+            background: #131b2e !important; 
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem;
+            color: #ffffff !important;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+        }
+
+        .nav-link { 
+            color: #d1d5db !important; 
+            font-weight: 500; 
+            transition: all 0.25s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            margin-right: 4px;
+        }
+
+        .nav-link:hover { 
+            color: #ffffff !important; 
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active { 
+            color: #ffffff !important; 
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .nav-link.active {
+            color: var(--accent) !important;
+            background-color: rgba(79, 70, 229, 0.15);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle-btn:hover {
+            border-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Card Form Styles */
+        .card {
+            max-width: 500px;
+            margin: auto;
+            border-radius: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            padding: 32px !important;
+            transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .form-control {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #4338ca, #3730a3);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-main);
+            color: var(--text-main);
+            border-color: var(--text-muted);
+        }
+
+        h2 {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i> Student System
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add.html">Add Student</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view.html">View Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reports.html">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card p-4 mt-5">
+            <h2 class="text-center mb-4">✏️ Update Student</h2>
+            
+            <div id="msg"></div>
+
+            <input type="text" id="name" class="form-control mb-2" placeholder="Name">
+            <input type="text" id="aridNumber" class="form-control mb-2" placeholder="Arid Number">
+            <input type="text" id="degree" class="form-control mb-2" placeholder="Degree">
+            <input type="text" id="cgpa" class="form-control mb-3" placeholder="CGPA">
+
+            <button class="btn btn-primary w-100 mb-2" onclick="updateStudent()">Update Student</button>
+            <a href="view.html" class="btn btn-secondary w-100">Back</a>
+        </div>
+    </div>
+
+    <script>
+        let editIndex = null;
+
+        window.onload = function () {
+            // Theme loader
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = document.querySelector('.theme-toggle-btn i');
+                if (icon) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            }
+
+            let data = localStorage.getItem("editStudent");
+            if (!data) {
+                alert("No student selected!");
+                window.location.href = "view.html";
+                return;
+            }
+
+            data = JSON.parse(data);
+            editIndex = data.index;
+
+            document.getElementById("name").value = data.name;
+            document.getElementById("aridNumber").value = data.aridNumber;
+            document.getElementById("degree").value = data.degree;
+            document.getElementById("cgpa").value = data.cgpa;
+        };
+
+        function updateStudent() {
+            let name = document.getElementById("name").value;
+            let aridNumber = document.getElementById("aridNumber").value;
+            let degree = document.getElementById("degree").value;
+            let cgpa = document.getElementById("cgpa").value;
+
+            fetch("http://localhost:3000/updateStudent/" + editIndex, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, aridNumber, degree, cgpa })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.removeItem("editStudent");
+                    window.location.href = "view.html";
+                } else {
+                    showMessage(data.message, "danger");
+                }
+            })
+            .catch(err => {
+                console.log("Error:", err);
+                showMessage("Network/Server error", "danger");
+            });
+        }
+
+        function showMessage(msg, type) {
+            document.getElementById("msg").innerHTML = `
+                <div class="alert alert-${type} text-center">${msg}</div>
+            `;
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            const icon = document.querySelector('.theme-toggle-btn i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

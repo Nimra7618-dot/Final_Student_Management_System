@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Students</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body { 
+            background: #f4f6f9; 
+            padding-top: 90px; /* Adjusted to fit the expanded navbar */
+            transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode {
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+        }
+
+        body.dark-mode, body.dark-mode .card, body.dark-mode .table {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        .navbar { 
+            background: linear-gradient(90deg, #1e3c72, #2a5298) !important; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 0;
+            transition: all 0.35s ease;
+        }
+
+        body.dark-mode .navbar {
+            background: #131b2e !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-nav .nav-link {
+            margin-right: 8px;
+            transition: all 0.25s ease;
+            font-weight: 500;
+            color: #d1d5db !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #ffffff !important;
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .navbar-nav .nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(79, 70, 229, 0.15);
+        }
+
+        .navbar-brand {
+            font-size: 1.35rem;
+            letter-spacing: -0.01em;
+            color: #ffffff !important;
+            font-weight: 700;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .card { 
+            border-radius: 12px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); 
+            background: #ffffff;
+            border: none;
+        }
+
+        table thead { 
+            background: #0d6efd; 
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-graduation-cap me-2"></i> Student System
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add.html">Add Student</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="view.html">View Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reports.html">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card p-4">
+            <h3 class="text-center mb-3">Students List</h3>
+            <table class="table table-hover text-center align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Arid Number</th>
+                        <th>Degree</th>
+                        <th>CGPA</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable"></tbody>
+            </table>
+            <div class="text-center"><a href="index.html" class="btn btn-secondary">Back</a></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            const icon = document.querySelector('.theme-toggle-btn i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        function loadStudents() {
+            fetch('/getStudents')
+            .then(res => res.json())
+            .then(data => {
+                let table = document.getElementById("studentTable");
+                table.innerHTML = "";
+                data.forEach((s, index) => {
+                    table.innerHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${s.name}</td>
+                            <td>${s.aridNumber}</td>
+                            <td>${s.degree}</td>
+                            <td>${s.cgpa}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" onclick="deleteStudent(${index})">Delete</button>
+                                <button class="btn btn-warning btn-sm" onclick="goUpdate(${index})">Update</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            });
+        }
+
+        function goUpdate(index) {
+            fetch('/getStudents')
+            .then(res => res.json())
+            .then(data => {
+                let student = data[index];
+                localStorage.setItem("editStudent", JSON.stringify({
+                    index: index,
+                    name: student.name,
+                    aridNumber: student.aridNumber,
+                    degree: student.degree,
+                    cgpa: student.cgpa
+                }));
+                window.location.href = "update.html";
+            });
+        }
+
+        function deleteStudent(index) {
+            if (!confirm("Are you sure?")) return;
+
+            fetch('/deleteStudent/' + index, { 
+                method: 'DELETE' 
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                loadStudents(); // Refresh the list
+            })
+            .catch(err => {
+                console.error("Fetch Error:", err);
+                alert("Server error occurred.");
+            });
+        }
+
+        loadStudents();
+    </script>
+</body>
+</html>

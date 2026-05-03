@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Student System</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #334155;
+            --accent: #4f46e5;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-main: #fafafa;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding-top: 90px;
+        }
+
+        /* Light Mode Designer Accent - Radial background highlight */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle 300px at 10% 10%, rgba(79, 70, 229, 0.05), transparent),
+                        radial-gradient(circle 400px at 90% 20%, rgba(15, 23, 42, 0.03), transparent);
+            z-index: -1;
+            pointer-events: none;
+            transition: background 0.3s ease;
+        }
+
+        /* Dark Mode Theming */
+        body.dark-mode {
+            --primary: #f8fafc;
+            --primary-light: #cbd5e1;
+            --accent: #6366f1;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --border-color: #1e293b;
+            --shadow-sm: none;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode::before {
+            background: none; /* Turn off accent background in dark mode for a sleeker contrast */
+        }
+
+        /* Navbar - Linear Gradient */
+        .navbar { 
+            background: linear-gradient(90deg, #1e3c72, #2a5298) !important; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-sm); 
+            padding: 12px 0;
+            transition: all 0.35s ease;
+        }
+        
+        body.dark-mode .navbar {
+            background: #131b2e !important; 
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem;
+            color: #ffffff !important;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+        }
+
+        .nav-link { 
+            color: #d1d5db !important; 
+            font-weight: 500; 
+            transition: all 0.25s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            margin-right: 4px;
+        }
+
+        .nav-link:hover { 
+            color: #ffffff !important; 
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active { 
+            color: #ffffff !important; 
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .nav-link.active {
+            color: var(--accent) !important;
+            background-color: rgba(79, 70, 229, 0.15);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle-btn:hover {
+            border-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 36px 0 36px;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .display-3 {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+            font-size: 2.75rem;
+        }
+        .lead {
+            font-size: 1.05rem;
+            max-width: 680px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Information Banner */
+        .info-banner {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 48px;
+            position: relative;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        
+        .info-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--accent), var(--primary-light));
+        }
+
+        .info-banner h2 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 18px;
+            font-size: 1.85rem;
+            color: var(--text-main);
+        }
+        .info-banner p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            max-width: 85%;
+            line-height: 1.75;
+        }
+        .icon-pills {
+            display: inline-flex;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        .pill-badge {
+            background: var(--bg-main);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        .pill-badge i {
+            color: var(--accent);
+        }
+
+        /* Statistics Section */
+        .stat-section {
+            padding: 12px 0 52px;
+        }
+        .stat-box { 
+            background: var(--bg-card); 
+            padding: 28px 18px; 
+            border-radius: 18px; 
+            box-shadow: var(--shadow-sm); 
+            text-align: center; 
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+        .stat-number { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            color: var(--accent); 
+            letter-spacing: -0.03em;
+            margin-bottom: 2px;
+        }
+        .stat-box p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.88rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
+        /* Vision Section */
+        .vision-section { 
+            padding: 68px 0; 
+            background: var(--bg-card); 
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            transition: background-color 0.35s ease, border-color 0.35s ease;
+        }
+        .vision-content h2 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+        .vision-content p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+        .vision-img-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0, 0, 0, 0.04); 
+        }
+        .vision-img-wrapper img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .vision-img-wrapper:hover img {
+            transform: scale(1.03);
+        }
+        .list-unstyled li {
+            margin-bottom: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.92rem;
+            transition: transform 0.2s ease, color 0.3s ease;
+        }
+        .list-unstyled li i {
+            color: var(--accent);
+        }
+        .list-unstyled li:hover {
+            transform: translateX(4px);
+        }
+
+        footer {
+            background: var(--bg-main);
+            border-top: 1px solid var(--border-color);
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+
+        /* Back to Top Button */
+        #backToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background: var(--primary);
+            color: var(--bg-main);
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 50%;
+            font-size: 15px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark-mode #backToTopBtn {
+            background: #ffffff;
+            color: #090d16;
+        }
+        #backToTopBtn:hover {
+            background: var(--accent);
+            transform: translateY(-4px) scale(1.03);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-section {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i> Student System
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add.html">Add Student</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view.html">View Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reports.html">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-section text-center">
+            <h1 class="display-3">Enterprise Management</h1>
+            <p class="lead">Pir Mehr Ali Shah Arid Agriculture University Rawalpindi | Streamlining the Future of Campus Experience.</p>
+        </div>
+
+        <div class="info-banner">
+            <h2>Our Institution & Mission</h2>
+            <p>Designed as a bespoke digital ecosystem for Arid Agriculture University, the Student Portal bridges legacy systems and modern technical infrastructure. Our core mission is to transform manual administrative processes into a seamless, highly functional experience—delivering enterprise-level security and 99.9% data uptime for the entire campus.</p>
+            
+            <div class="icon-pills">
+                <span class="pill-badge"><i class="fas fa-university me-2"></i> PMAS-AAUR</span>
+                <span class="pill-badge"><i class="fas fa-shield-alt me-2"></i> Security First</span>
+                <span class="pill-badge"><i class="fas fa-bolt me-2"></i> High Scalability</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="stat-section container animate-section">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number" data-target="5000">0+</div>
+                    <p>Students Served</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number" data-target="247">24/7</div>
+                    <p>System Uptime</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number" data-target="100">0%</div>
+                    <p>Data Security</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number" data-target="12">0+</div>
+                    <p>Modules Built</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vision-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-md-6 vision-content">
+                    <h2 class="display-5 fw-bold mb-4">Our Vision for the Future</h2>
+                    <p class="text-muted fs-5 mb-4">We are not just building a portal; we are crafting an ecosystem for academic success. Our platform is designed to evolve, integrating AI-driven insights, automated attendance management, and real-time student-faculty communication.</p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="d-flex align-items-center"><i class="fas fa-check-circle me-3 fs-4"></i> Real-time progress tracking</li>
+                        <li class="d-flex align-items-center"><i class="fas fa-check-circle me-3 fs-4"></i> Secure cloud-based storage</li>
+                        <li class="d-flex align-items-center"><i class="fas fa-check-circle me-3 fs-4"></i> Simplified user interface for all devices</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="vision-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="img-fluid" alt="Students">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-5 text-muted">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Arid Agriculture University Rawalpindi</p>
+        </div>
+    </footer>
+
+    <button onclick="topFunction()" id="backToTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            const icon = document.querySelector('.theme-toggle-btn i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        let mybutton = document.getElementById("backToTopBtn");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        };
+
+        function topFunction() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply saved theme
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = document.querySelector('.theme-toggle-btn i');
+                if (icon) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            }
+
+            const counters = document.querySelectorAll('.stat-number');
+            const observerOptions = {
+                root: null,
+                threshold: 0.5
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = +counter.getAttribute('data-target');
+                        const currentText = counter.innerText;
+                        
+                        let suffix = '';
+                        if (currentText.includes('k')) suffix = 'k+';
+                        else if (currentText.includes('%')) suffix = '%';
+                        else if (currentText.includes('/')) suffix = '/7'; 
+                        else suffix = '+';
+
+                        let start = 0;
+                        const duration = 1500;
+                        const increment = target / (duration / 16);
+                        
+                        const updateCounter = () => {
+                            start += increment;
+                            if (start < target) {
+                                counter.innerText = Math.floor(start) + suffix;
+                                setTimeout(updateCounter, 16);
+                            } else {
+                                counter.innerText = target + suffix;
+                            }
+                        };
+                        
+                        updateCounter();
+                        observer.unobserve(counter);
+                    }
+                });
+            }, observerOptions);
+            
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

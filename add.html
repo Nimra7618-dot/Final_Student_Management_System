@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student | Student System</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1e40af;
+            --accent: #4f46e5;
+            --secondary: #0f766e;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-top: 90px;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Mode Theming */
+        body.dark-mode {
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+        }
+
+        /* Navbar Styling */
+        .navbar { 
+            background: linear-gradient(90deg, #1e3c72, #2a5298) !important; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 0;
+            transition: all 0.35s ease;
+        }
+
+        body.dark-mode .navbar {
+            background: #131b2e !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-nav .nav-link {
+            margin-right: 8px;
+            color: #d1d5db !important;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            padding: 0.5rem 1rem !important;
+        }
+
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .navbar-nav .nav-link.active {
+            color: var(--accent) !important;
+            background-color: rgba(79, 70, 229, 0.15);
+        }
+
+        .navbar-brand {
+            font-size: 1.35rem;
+            letter-spacing: -0.01em;
+            color: #ffffff !important;
+            font-weight: 700;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .form-card {
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        body.dark-mode .form-card {
+            box-shadow: none;
+        }
+
+        .form-control {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border-color: var(--border-color);
+            border-radius: 8px;
+        }
+
+        .form-control:focus {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border-color: #3b82f6;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background: #1e40af;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            transition: 0.3s;
+            background: #1e3a8a;
+        }
+
+        label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i> Student System
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="add.html">Add Student</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view.html">View Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reports.html">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="form-card">
+                    <h2 class="text-center fw-bold mb-4">➕ Add Student</h2>
+                    <div id="msg"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Arid Number</label>
+                        <input type="text" id="aridNumber" class="form-control" placeholder="26-ARID-1234" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Degree/Course</label>
+                        <input type="text" id="degree" class="form-control" placeholder="Computer Science" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CGPA</label>
+                        <input type="number" step="0.01" id="cgpa" class="form-control" placeholder="3.5" required>
+                    </div>
+
+                    <button class="btn btn-primary w-100 py-2 rounded-pill mt-3 shadow-sm" onclick="addStudent()">Submit</button>
+                    <a href="index.html" class="btn btn-outline-secondary w-100 mt-2 py-2 rounded-pill">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            const icon = document.querySelector('.theme-toggle-btn i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function addStudent() {
+            let name = document.getElementById("name").value;
+            let aridNumber = document.getElementById("aridNumber").value;
+            let degree = document.getElementById("degree").value;
+            let cgpa = document.getElementById("cgpa").value;
+
+            if (!name || !aridNumber || !degree || !cgpa) {
+                showMessage("Please fill out all required fields.", "warning");
+                return;
+            }
+
+            fetch('http://localhost:3000/addStudent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    name: name, 
+                    aridNumber: aridNumber, 
+                    degree: degree, 
+                    cgpa: cgpa 
+                })
+            })
+            .then(res => res.text())
+            .then(data => {
+                console.log("SERVER RESPONSE:", data);
+                showMessage("Student added successfully!", "success");
+                // Clear fields
+                document.getElementById("name").value = "";
+                document.getElementById("aridNumber").value = "";
+                document.getElementById("degree").value = "";
+                document.getElementById("cgpa").value = "";
+            })
+            .catch(err => {
+                console.log("ERROR:", err);
+                showMessage("Server error, could not add student.", "danger");
+            });
+        }
+
+        function showMessage(msg, type) {
+            let box = document.getElementById("msg");
+            box.innerHTML = `
+                <div class="alert alert-${type} text-center">
+                    ${msg}
+                </div>
+            `;
+            setTimeout(() => {
+                box.innerHTML = "";
+            }, 3000);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = document.querySelector('.theme-toggle-btn i');
+                if (icon) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
