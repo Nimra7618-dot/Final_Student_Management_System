@@ -1,34 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const mysql = require('mysql2/promise'); // Import promise-based mysql2
-require('dotenv').config(); // Load environment variables from .env
+const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-const express = require('express');
 const app = express();
 
 // Middlewares
+app.use(cors());
 app.use(express.json());
 
-// Routes
-app.get('/api/students', (req, res) => {
-    res.json({ message: "Student data fetched successfully!" });
-});
-
-// Export as a serverless function
-module.exports = app;
-
-// 1. Create connection pool to the database
-// 1. Create connection pool to the database with hardcoded credentials
+// 1. Database Connection Pool
+// (Koshish karein ke yahan localhost ki jagah live database ka URL/credentials dein)
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'student_management',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'student_management',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -56,10 +44,13 @@ async function initDatabase() {
 }
 initDatabase();
 
-// 3. CRUD Routes
+// 3. CRUD Routes with /api prefix for Vercel
+app.get('/api/students', (req, res) => {
+    res.json({ message: "Student data fetched successfully!" });
+});
 
 // GET: Retrieve all students
-app.get('/getStudents', async (req, res) => {
+app.get('/api/getStudents', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM students');
         res.json(rows);
@@ -69,7 +60,7 @@ app.get('/getStudents', async (req, res) => {
 });
 
 // POST: Add a new student
-app.post('/addStudent', async (req, res) => {
+app.post('/api/addStudent', async (req, res) => {
     const { name, aridNumber, degree, cgpa } = req.body;
     try {
         const [result] = await pool.query(
@@ -83,7 +74,7 @@ app.post('/addStudent', async (req, res) => {
 });
 
 // PUT: Update an existing student by ID
-app.put('/updateStudent/:id', async (req, res) => {
+app.put('/api/updateStudent/:id', async (req, res) => {
     const { id } = req.params;
     const { name, aridNumber, degree, cgpa } = req.body;
     try {
@@ -102,7 +93,7 @@ app.put('/updateStudent/:id', async (req, res) => {
 });
 
 // DELETE: Remove a student by ID
-app.delete('/deleteStudent/:id', async (req, res) => {
+app.delete('/api/deleteStudent/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const [result] = await pool.query('DELETE FROM students WHERE id = ?', [id]);
@@ -116,11 +107,16 @@ app.delete('/deleteStudent/:id', async (req, res) => {
     }
 });
 
-// 4. STATIC FILES
-app.use(express.static(path.join(__dirname, 'public')));
+// 4. Static Files Middleware
+app.use(express.static(path.join(__dirname, '../public')));
 
-// 5. START SERVER
+// 5. Start Server (Only for local execution, ignored by Vercel)
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+// Export as a serverless function
+module.exports = app;
