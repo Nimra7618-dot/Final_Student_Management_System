@@ -8,6 +8,19 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+const express = require('express');
+const app = express();
+
+// Middlewares
+app.use(express.json());
+
+// Routes
+app.get('/api/students', (req, res) => {
+    res.json({ message: "Student data fetched successfully!" });
+});
+
+// Export as a serverless function
+module.exports = app;
 
 // 1. Create connection pool to the database
 // 1. Create connection pool to the database with hardcoded credentials
